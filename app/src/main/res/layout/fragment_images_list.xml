@@ -15,7 +15,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:itemDivider="@{true}"
+            android:item_divider="@{true}"
+            android:fixed_size="@{true}"
             app:layoutManager="LinearLayoutManager"
             tools:context="com.example.flickrimagesseeker.MainActivity"
             tools:listitem="@layout/fragment_images_list_item" />

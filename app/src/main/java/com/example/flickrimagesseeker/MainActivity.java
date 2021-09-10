@@ -1,24 +1,28 @@
 package com.example.flickrimagesseeker;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.flickrimagesseeker.databinding.ActivityItemDetailBinding;
 import com.example.flickrimagesseeker.databinding.MainActivityBinding;
 import com.example.flickrimagesseeker.utils.DialogUtils;
 
+import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import timber.log.Timber;
 
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
 
     private MainActivityBinding mDataBinding;
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Timber.e(throwable);
         DialogUtils.showOneButtonDialog(this, R.string.unexpected_error, null);
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         mDataBinding.setLifecycleOwner(this);
 
         navigationSetUp();
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.flickrimagesseeker.presentation.adapters;
+package com.example.flickrimagesseeker.ui.adapters;
 
 import android.widget.LinearLayout;
 
@@ -14,11 +14,16 @@ public class BindingAdapters {
         recyclerView.setAdapter(adapter);
     }
 
-    @BindingAdapter("android:itemDivider")
+    @BindingAdapter("android:item_divider")
     public static void setRecyclerViewItemDivider(RecyclerView recyclerView, boolean addDivider){
         if (addDivider) {
             DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), LinearLayout.VERTICAL);
             recyclerView.addItemDecoration(mDividerItemDecoration);
         }
+    }
+
+    @BindingAdapter("android:fixed_size")
+    public static void setRecyclerFixedSize(RecyclerView recyclerView, boolean fixedSize) {
+        recyclerView.setHasFixedSize(fixedSize);
     }
 }

@@ -4,4 +4,8 @@
     <string name="unexpected_error">Unexpected error.</string>
     <string name="alt_accept">ACCEPT</string>
     <string name="alt_cancel">CANCEL</string>
+    <string name="date_x">"Date: <![CDATA[<b>%s</b>]]>"</string>
+    <string name="title_x">"Title: <![CDATA[<b>%s</b>]]>"</string>
+    <string name="author_x">"Author: <![CDATA[<b>%s</b>]]>"</string>
+    <string name="search">Search</string>
 </resources>
