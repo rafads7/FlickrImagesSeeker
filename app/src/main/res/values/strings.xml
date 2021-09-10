@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Flickr Images Seeker</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="unexpected_error">Unexpected error.</string>
+    <string name="alt_accept">ACCEPT</string>
+    <string name="alt_cancel">CANCEL</string>
+</resources>
