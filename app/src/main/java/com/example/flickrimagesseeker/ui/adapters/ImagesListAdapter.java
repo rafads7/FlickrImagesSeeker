@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.flickrimagesseeker.R;
-import com.example.flickrimagesseeker.data.entities.FlickrImage;
+import com.example.flickrimagesseeker.data.entities.ListImage;
 import com.example.flickrimagesseeker.databinding.FragmentImagesListItemBinding;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ImagesListAdapter extends PagingDataAdapter<FlickrImage, ImagesListAdapter.ViewHolder> {
+public class ImagesListAdapter extends PagingDataAdapter<ListImage, ImagesListAdapter.ViewHolder> {
 
     public ImagesListAdapter() {
         super(COMPARATOR);
@@ -36,7 +36,7 @@ public class ImagesListAdapter extends PagingDataAdapter<FlickrImage, ImagesList
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ImagesListAdapter.ViewHolder holder, int position) {
-        FlickrImage item = getItem(position);
+        ListImage item = getItem(position);
         if (item != null)
             holder.bind(item);
     }
@@ -57,9 +57,10 @@ public class ImagesListAdapter extends PagingDataAdapter<FlickrImage, ImagesList
             return super.toString();
         }
 
-        public void bind(FlickrImage image) {
+        public void bind(ListImage image) {
             Glide.with(itemView)
-                    .load(image.getUrl()).centerCrop()
+                    .load(image.getPhotoInfo().getUrl())
+                    .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_error)
                     .into(itemBinding.thumbnail);
@@ -74,14 +75,14 @@ public class ImagesListAdapter extends PagingDataAdapter<FlickrImage, ImagesList
         }
     }
 
-    final static DiffUtil.ItemCallback COMPARATOR = new DiffUtil.ItemCallback<FlickrImage>() {
+    final static DiffUtil.ItemCallback COMPARATOR = new DiffUtil.ItemCallback<ListImage>() {
         @Override
-        public boolean areItemsTheSame(@NonNull @NotNull FlickrImage oldItem, @NonNull @NotNull FlickrImage newItem) {
-            return oldItem.getId().equals(newItem.getId());
+        public boolean areItemsTheSame(@NonNull @NotNull ListImage oldItem, @NonNull @NotNull ListImage newItem) {
+            return oldItem.getPhotoInfo().getId().equals(newItem.getPhotoInfo().getId());
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull @NotNull FlickrImage oldItem, @NonNull @NotNull FlickrImage newItem) {
+        public boolean areContentsTheSame(@NonNull @NotNull ListImage oldItem, @NonNull @NotNull ListImage newItem) {
             return oldItem.equals(newItem);
         }
     };

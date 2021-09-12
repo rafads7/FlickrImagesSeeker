@@ -11,6 +11,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RxJavaPlugins.setErrorHandler(this.errorHandler);
+        //RxJavaPlugins.setErrorHandler(this.errorHandler);
 
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.main_activity);
         mDataBinding.setLifecycleOwner(this);
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void navigationSetUp() {
-        mNavController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        mNavController = ((NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment)).getNavController();
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.
                 Builder(mNavController.getGraph())

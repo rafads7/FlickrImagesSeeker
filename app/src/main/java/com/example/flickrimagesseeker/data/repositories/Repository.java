@@ -1,14 +1,11 @@
 package com.example.flickrimagesseeker.data.repositories;
 
-import androidx.paging.PagingData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.paging.Pager;
 
-import com.example.flickrimagesseeker.data.entities.FlickrImage;
-
-import org.jetbrains.annotations.NotNull;
-
-import io.reactivex.rxjava3.core.Flowable;
+import com.example.flickrimagesseeker.api.entities.photos_search.FlickrImage;
 
 public interface Repository {
 
-    @NotNull Flowable<PagingData<FlickrImage>> getSearchResult(String query);
+    MutableLiveData<Pager<Integer, FlickrImage>> getSearchResult(String query);
 }

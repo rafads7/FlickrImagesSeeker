@@ -1,27 +1,31 @@
 package com.example.flickrimagesseeker.ui.viewmodels;
 
-import com.example.flickrimagesseeker.data.entities.FlickrImage;
+import com.example.flickrimagesseeker.api.entities.photos_search.FlickrImage;
+import com.example.flickrimagesseeker.data.entities.ListImage;
 import com.example.flickrimagesseeker.data.repositories.FlickrRepository;
-import com.example.flickrimagesseeker.data.repositories.Repository;
 
-import androidx.hilt.lifecycle.ViewModelInject;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelKt;
 import androidx.paging.PagingData;
-import androidx.paging.rxjava3.PagingRx;
+import androidx.paging.PagingLiveData;
 
-import io.reactivex.rxjava3.core.Flowable;
+import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Inject;
 
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class FlickrViewModel extends ViewModel {
 
     private FlickrRepository mRepository;
     private MutableLiveData<String> mQuery = new MutableLiveData<>();
 
-    @ViewModelInject
+    private @NotNull LiveData<PagingData<ListImage>> mImages = new MutableLiveData<>();
+
+    @Inject
     public FlickrViewModel(FlickrRepository repository) {
         mRepository = repository;
     }
@@ -34,10 +38,15 @@ public class FlickrViewModel extends ViewModel {
         mQuery.setValue(query);
     }
 
-    public Flowable<PagingData<FlickrImage>> getImages() {
-        Flowable<PagingData<FlickrImage>> searchResult = mRepository.getSearchResult(getQuery().getValue());
-        PagingRx.cachedIn(searchResult, ViewModelKt.getViewModelScope(this));
-        return searchResult;
+    public @NotNull LiveData<PagingData<ListImage>> getImages() {
+        //Flowable<PagingData<FlickrImage>> searchResult = mRepository.getSearchResult("cats");
+        //PagingRx.cachedIn(searchResult, ViewModelKt.getViewModelScope(this));
+        //return searchResult;
+        ;
+
+        mImages = PagingLiveData.cachedIn(mRepository.getSearchResult("cat"),
+                ViewModelKt.getViewModelScope(this));
+        return mImages;
     }
 
 }

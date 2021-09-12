@@ -3,15 +3,6 @@ package com.example.flickrimagesseeker;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DiffUtil;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,12 +10,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.flickrimagesseeker.data.entities.FlickrImage;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.flickrimagesseeker.databinding.FragmentImagesListBinding;
 import com.example.flickrimagesseeker.ui.adapters.ImagesListAdapter;
 import com.example.flickrimagesseeker.ui.viewmodels.FlickrViewModel;
-
-import org.jetbrains.annotations.NotNull;
+import com.example.flickrimagesseeker.utils.DialogUtils;
 
 import javax.inject.Inject;
 
@@ -49,15 +43,12 @@ public class ImagesListFragment extends Fragment {
     @Inject
     CompositeDisposable compositeDisposable;
 
-    /*
     @Inject
     ImagesListAdapter mAdapter;
-     */
 
     private FlickrViewModel mViewModel;
     private FragmentImagesListBinding mDataBinding;
     protected SearchView mSearchView;
-    private ImagesListAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
@@ -77,14 +68,18 @@ public class ImagesListFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mAdapter = new ImagesListAdapter();
-
         mDataBinding.itemList.setAdapter(mAdapter);
 
+        /*
         compositeDisposable.add(mViewModel.getImages()
                 .subscribeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(flickrImagePagingData -> mAdapter.submitData(getViewLifecycleOwner().getLifecycle(), flickrImagePagingData)));
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(flickrImagePagingData -> mAdapter.submitData(getViewLifecycleOwner().getLifecycle(), flickrImagePagingData)
+                        , t -> DialogUtils.showOneButtonDialog(requireActivity(), t.getMessage(), null)));
+
+         */
+
+        mViewModel.getImages().observe(getViewLifecycleOwner(), images -> mAdapter.submitData(getViewLifecycleOwner().getLifecycle(), images));
 
     }
 
@@ -94,13 +89,12 @@ public class ImagesListFragment extends Fragment {
 
         MenuItem searchMenuItem = menu.findItem(R.id.search);
         //searchMenuItem.setOnActionExpandListener(getMenuExpandListener(menu));
-
         SearchManager searchManager = (SearchManager) requireActivity().getSystemService(Context.SEARCH_SERVICE);
         mSearchView = (SearchView) searchMenuItem.getActionView();
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().getComponentName()));
         mSearchView.setIconifiedByDefault(false);
-        //mSearchView.setSuggestionsAdapter(getSuggestionsAdapter());
         mSearchView.setOnQueryTextListener(getOnQueryTextListener());
+        //mSearchView.setSuggestionsAdapter(getSuggestionsAdapter());
     }
 
     @Override

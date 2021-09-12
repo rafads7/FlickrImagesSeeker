@@ -1,4 +1,4 @@
-package com.example.flickrimagesseeker.data.entities;
+package com.example.flickrimagesseeker.api.entities.photos_search;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,10 +10,6 @@ public class FlickrImage {
     @SerializedName("id")
     @Expose
     private String id;
-
-    @SerializedName("owner")
-    @Expose
-    private String owner;
 
     @SerializedName("title")
     @Expose
@@ -37,14 +33,6 @@ public class FlickrImage {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
     }
 
     public String getTitle() {
@@ -86,7 +74,6 @@ public class FlickrImage {
         FlickrImage that = (FlickrImage) o;
         return farm == that.farm &&
                 Objects.equals(id, that.id) &&
-                Objects.equals(owner, that.owner) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(secret, that.secret) &&
                 Objects.equals(server, that.server);
@@ -94,11 +81,11 @@ public class FlickrImage {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, owner, title, secret, server, farm);
+        return Objects.hash(id, title, secret, server, farm);
     }
 
     public String getUrl() {
-        //TODO
-        return "";
+        String url = String.format("https://farm%s.staticflickr.com/%s/%s_%s_t.jpg", getFarm(), getServer(), getId(), getSecret());
+        return url;
     }
 }

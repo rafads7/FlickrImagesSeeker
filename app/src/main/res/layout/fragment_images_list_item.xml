@@ -6,12 +6,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="@dimen/text_margin"
-        android:layout_margin="@dimen/container_margin">
+        android:layout_margin="@dimen/half_margin">
 
         <ImageView
             android:id="@+id/thumbnail"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -19,14 +19,16 @@
         <TextView
             android:id="@+id/title"
             style="@style/ItemTextView"
-            android:text="@{image.title}"
+            android:text="@{image.photoInfo.title.get}"
+            android:inputType="textMultiLine"
             app:layout_constraintTop_toTopOf="@id/thumbnail"
             app:layout_constraintStart_toEndOf="@id/thumbnail" />
 
         <TextView
             android:id="@+id/author"
             style="@style/ItemTextView"
-            android:text="@{image.owner}"
+            android:text="@{image.photoInfo.owner.realname}"
+            android:inputType="textMultiLine"
             app:layout_constraintStart_toEndOf="@id/thumbnail"
             app:layout_constraintTop_toBottomOf="@id/title"/>
 
@@ -35,6 +37,6 @@
     <data>
         <variable
             name="image"
-            type="com.example.flickrimagesseeker.data.entities.FlickrImage" />
+            type="com.example.flickrimagesseeker.data.entities.ListImage" />
     </data>
 </layout>

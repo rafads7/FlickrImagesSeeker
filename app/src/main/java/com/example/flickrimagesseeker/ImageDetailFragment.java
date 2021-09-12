@@ -7,14 +7,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.example.flickrimagesseeker.placeholder.PlaceholderContent;
-import com.example.flickrimagesseeker.databinding.FragmentItemDetailBinding;
+import com.example.flickrimagesseeker.databinding.FragmentImageDetailBinding;
 
 /**
- * A fragment representing a single Item detail screen.
+ * A fragment representing a single ListImage detail screen.
  * This fragment is either contained in a {@link ImagesListFragment}
  * in two-pane mode (on larger screen devices) or self-contained
  * on handsets.
@@ -30,8 +27,7 @@ public class ImageDetailFragment extends Fragment {
     /**
      * The placeholder content this fragment is presenting.
      */
-    private PlaceholderContent.PlaceholderItem mItem;
-    private FragmentItemDetailBinding binding;
+    private FragmentImageDetailBinding binding;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -48,7 +44,6 @@ public class ImageDetailFragment extends Fragment {
             // Load the placeholder content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = PlaceholderContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
     }
 
@@ -56,19 +51,11 @@ public class ImageDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = FragmentItemDetailBinding.inflate(inflater, container, false);
+        binding = FragmentImageDetailBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
-        CollapsingToolbarLayout toolbarLayout = rootView.findViewById(R.id.toolbar_layout);
 
-        // Show the placeholder content as text in a TextView & in the toolbar if available.
-        if (mItem != null) {
-            TextView textView = binding.itemDetail;
-            textView.setText(mItem.details);
-            if (toolbarLayout != null) {
-                toolbarLayout.setTitle(mItem.content);
-            }
-        }
+
 
         return rootView;
     }

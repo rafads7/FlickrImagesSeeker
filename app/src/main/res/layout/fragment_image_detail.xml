@@ -51,7 +51,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <data>
-
         <import type="android.text.Html" />
     </data>
 </layout>
