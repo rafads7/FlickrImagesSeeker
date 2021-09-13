@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-
 @Singleton
 public class FlickrRepository{
 

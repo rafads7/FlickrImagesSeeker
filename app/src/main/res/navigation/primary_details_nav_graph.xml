@@ -5,6 +5,10 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/item_list_fragment">
 
+    <action
+        android:id="@+id/to_zoom"
+        app:destination="@id/zoom_image_fragment"/>
+
     <fragment
         android:id="@+id/item_list_fragment"
         android:name="com.example.flickrimagesseeker.ui.ImagesListFragment"
@@ -18,10 +22,22 @@
     <fragment
         android:id="@+id/image_detail_fragment"
         android:name="com.example.flickrimagesseeker.ui.ImageDetailFragment"
-        android:label="ImageDetail"
-        tools:layout="@string/image_details">
+        android:label="@string/image_details"
+        tools:layout="@layout/fragment_image_detail">
         <argument
             android:name="image"
             app:argType="com.example.flickrimagesseeker.data.entities.ListImage" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/zoom_image_fragment"
+        android:label="@string/zoom"
+        android:name="com.example.flickrimagesseeker.ui.ZoomImageFragment"
+        tools:layout="@layout/zoom_layout">
+        <argument
+            android:name="url"
+            app:argType="string"
+            android:defaultValue=""/>
     </fragment>
 </navigation>

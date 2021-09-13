@@ -2,11 +2,6 @@ package com.example.flickrimagesseeker.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,14 +9,24 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.example.flickrimagesseeker.NavGraphDirections;
 import com.example.flickrimagesseeker.R;
 import com.example.flickrimagesseeker.data.entities.ListImage;
 import com.example.flickrimagesseeker.databinding.FragmentImageDetailBinding;
 
 import org.jetbrains.annotations.NotNull;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class ImageDetailFragment extends Fragment {
 
     private FragmentImageDetailBinding mDataBinding;
@@ -37,8 +42,14 @@ public class ImageDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        NavController navController = NavHostFragment.findNavController(this);
         mImage = ImageDetailFragmentArgs.fromBundle(getArguments()).getImage();
         mDataBinding.setImage(mImage);
+
+        mDataBinding.image.setOnTouchListener((v, event) -> {
+            navController.navigate(NavGraphDirections.toZoom().setUrl(mImage.getPhotoInfo().getUrl()));
+            return true;
+        });
 
         Glide.with(this)
                 .load(mImage.getPhotoInfo().getUrl())

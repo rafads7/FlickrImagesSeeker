@@ -39,11 +39,6 @@ public class FlickrImagePagingSource extends RxPagingSource<Integer, ListImage> 
         int perPage = loadParams.getLoadSize();
         int pageIndex = loadParams.getKey() == null ? FIRST_PAGE_INDEX : loadParams.getKey();
 
-
-        //mApi.searchPhotos(USER_API_KEY, mQuery, pageIndex, perPage, FORMAT, NJC)
-        //.flatMap(searchResult -> Flowable.fromIterable(searchResult.getPhotos().getPhotoList()),
-        //      (searchResult, flImg) ->  mApi.getPhotoInfo(USER_API_KEY, flImg.getId(), FORMAT, NJC))
-
         return mApi.searchPhotos(USER_API_KEY, mQuery, pageIndex, perPage, FORMAT, NJC)
                 .concatMap(searchResult -> Flowable.fromIterable(searchResult.getPhotos().getPhotoList()))
                 .flatMap(flickrImage -> mApi.getPhotoInfo(USER_API_KEY, flickrImage.getId(), FORMAT, NJC),

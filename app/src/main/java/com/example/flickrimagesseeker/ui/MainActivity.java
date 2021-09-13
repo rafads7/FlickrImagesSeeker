@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.plugins.RxJavaPlugins;
 import timber.log.Timber;
 
 @AndroidEntryPoint
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     private MainActivityBinding mDataBinding;
     private NavController mNavController;
@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         Timber.e(throwable);
         DialogUtils.showOneButtonDialog(this, R.string.unexpected_error, null);
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,5 +59,11 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         NavigationUI.setupActionBarWithNavController(this, mNavController, appBarConfiguration);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
