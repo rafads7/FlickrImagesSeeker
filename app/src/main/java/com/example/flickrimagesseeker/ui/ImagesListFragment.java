@@ -40,6 +40,7 @@ import static android.view.View.VISIBLE;
 public class ImagesListFragment extends Fragment {
 
     @Inject
+
     CompositeDisposable compositeDisposable;
 
     @Inject
@@ -126,7 +127,7 @@ public class ImagesListFragment extends Fragment {
         mDataBinding.progressLayout.errorText.setVisibility(ls instanceof LoadState.Error ? VISIBLE : GONE);
         mDataBinding.progressLayout.retry.setVisibility(ls instanceof LoadState.Error ? VISIBLE : GONE);
 
-        if (ls instanceof LoadState.NotLoading && cls.getAppend().getEndOfPaginationReached() && mAdapter.getItemCount() < 1) {
+        if (ls instanceof LoadState.NotLoading && mAdapter.getItemCount() < 1) { //&& cls.getAppend().getEndOfPaginationReached()
             mDataBinding.itemList.setVisibility(GONE);
             mDataBinding.progressLayout.noData.setVisibility(VISIBLE);
         } else
