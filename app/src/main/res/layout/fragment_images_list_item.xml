@@ -4,9 +4,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/text_margin"
-        android:layout_margin="@dimen/half_margin">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/thumbnail"
@@ -20,7 +18,6 @@
             android:id="@+id/title"
             style="@style/ItemTextView"
             android:text="@{image.photoInfo.title.get}"
-            android:inputType="textMultiLine"
             app:layout_constraintTop_toTopOf="@id/thumbnail"
             app:layout_constraintStart_toEndOf="@id/thumbnail" />
 
@@ -28,7 +25,6 @@
             android:id="@+id/author"
             style="@style/ItemTextView"
             android:text="@{image.photoInfo.owner.realname}"
-            android:inputType="textMultiLine"
             app:layout_constraintStart_toEndOf="@id/thumbnail"
             app:layout_constraintTop_toBottomOf="@id/title"/>
 

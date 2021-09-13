@@ -1,10 +1,13 @@
 package com.example.flickrimagesseeker.data.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.example.flickrimagesseeker.api.entities.photos_info_search.FlickrImageInfo;
 
 import java.util.Objects;
 
-public class ListImage {
+public class ListImage implements Parcelable {
 
     private int pageIndex;
     private FlickrImageInfo photoInfo;
@@ -13,6 +16,23 @@ public class ListImage {
         this.pageIndex = pageIndex;
         this.photoInfo = photoInfo;
     }
+
+    protected ListImage(Parcel in) {
+        pageIndex = in.readInt();
+        photoInfo = in.readParcelable(FlickrImageInfo.class.getClassLoader());
+    }
+
+    public static final Creator<ListImage> CREATOR = new Creator<ListImage>() {
+        @Override
+        public ListImage createFromParcel(Parcel in) {
+            return new ListImage(in);
+        }
+
+        @Override
+        public ListImage[] newArray(int size) {
+            return new ListImage[size];
+        }
+    };
 
     public int getPageIndex() {
         return pageIndex;
@@ -43,4 +63,16 @@ public class ListImage {
     public int hashCode() {
         return Objects.hash(pageIndex, photoInfo);
     }
+
+    @Override
+    public int describeContents() {
+        return hashCode();
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeParcelable(photoInfo, flags);
+        parcel.writeInt(pageIndex);
+    }
+
 }

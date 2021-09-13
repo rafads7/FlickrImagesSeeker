@@ -8,4 +8,12 @@
     <string name="title_x">"Title: <![CDATA[<b>%s</b>]]>"</string>
     <string name="author_x">"Author: <![CDATA[<b>%s</b>]]>"</string>
     <string name="search">Search</string>
+    <string name="author">Author</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="image_details">Image Details</string>
+    <string name="no_good_connection">There is no good internet connection.</string>
+    <string name="loading">Loading</string>
+    <string name="did_not_get_data">Data could not be downloaded.</string>
+    <string name="no_result_to_show">No results to show for that search.</string>
 </resources>

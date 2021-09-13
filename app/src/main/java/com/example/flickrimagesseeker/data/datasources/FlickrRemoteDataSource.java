@@ -8,7 +8,7 @@ import javax.inject.Singleton;
 @Singleton
 public class FlickrRemoteDataSource {
 
-    FlickrApi mApi;
+    private FlickrApi mApi;
 
     @Inject
     public FlickrRemoteDataSource(FlickrApi flickrApi){

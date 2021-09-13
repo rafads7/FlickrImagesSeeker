@@ -1,4 +1,4 @@
-package com.example.flickrimagesseeker;
+package com.example.flickrimagesseeker.ui;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.flickrimagesseeker.R;
 import com.example.flickrimagesseeker.databinding.MainActivityBinding;
 import com.example.flickrimagesseeker.utils.DialogUtils;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //RxJavaPlugins.setErrorHandler(this.errorHandler);
+        RxJavaPlugins.setErrorHandler(this.errorHandler);
 
         mDataBinding = DataBindingUtil.setContentView(this, R.layout.main_activity);
         mDataBinding.setLifecycleOwner(this);

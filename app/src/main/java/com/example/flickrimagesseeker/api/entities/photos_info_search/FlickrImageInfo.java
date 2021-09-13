@@ -1,11 +1,14 @@
 package com.example.flickrimagesseeker.api.entities.photos_info_search;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.example.flickrimagesseeker.api.entities.photos_search.FlickrImage;
 import com.google.gson.annotations.Expose;
 
 import java.util.Objects;
 
-public class FlickrImageInfo {
+public class FlickrImageInfo implements Parcelable {
 
     @Expose
     private FlickrImageOwner owner;
@@ -27,6 +30,25 @@ public class FlickrImageInfo {
 
     @Expose
     private FlickrImageDescription description;
+
+    protected FlickrImageInfo(Parcel in) {
+        id = in.readString();
+        secret = in.readString();
+        server = in.readString();
+        farm = in.readInt();
+    }
+
+    public static final Creator<FlickrImageInfo> CREATOR = new Creator<FlickrImageInfo>() {
+        @Override
+        public FlickrImageInfo createFromParcel(Parcel in) {
+            return new FlickrImageInfo(in);
+        }
+
+        @Override
+        public FlickrImageInfo[] newArray(int size) {
+            return new FlickrImageInfo[size];
+        }
+    };
 
     public FlickrImageOwner getOwner() {
         return owner;
@@ -102,8 +124,30 @@ public class FlickrImageInfo {
         return Objects.hash(owner, id, secret, server, farm, description);
     }
 
-    public String getUrl() {
+
+    public String getThumbnail() {
         String url = String.format("https://farm%s.staticflickr.com/%s/%s_%s_t.jpg", getFarm(), getServer(), getId(), getSecret());
         return url;
+    }
+
+    public String getUrl() {
+        String url = String.format("https://farm%s.staticflickr.com/%s/%s_%s.jpg", getFarm(), getServer(), getId(), getSecret());
+        return url;
+    }
+
+    @Override
+    public int describeContents() {
+        return hashCode();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(secret);
+        dest.writeString(server);
+        dest.writeInt(farm);
+        dest.writeParcelable(owner, flags);
+        dest.writeParcelable(description, flags);
+        dest.writeParcelable(title, flags);
     }
 }

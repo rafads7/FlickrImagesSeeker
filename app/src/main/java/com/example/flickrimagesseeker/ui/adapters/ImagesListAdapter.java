@@ -21,6 +21,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class ImagesListAdapter extends PagingDataAdapter<ListImage, ImagesListAdapter.ViewHolder> {
 
+    private OnImageSelected mListener;
+
     public ImagesListAdapter() {
         super(COMPARATOR);
     }
@@ -41,6 +43,9 @@ public class ImagesListAdapter extends PagingDataAdapter<ListImage, ImagesListAd
             holder.bind(item);
     }
 
+    public void setListener(OnImageSelected listener) {
+        mListener = listener;
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -59,7 +64,7 @@ public class ImagesListAdapter extends PagingDataAdapter<ListImage, ImagesListAd
 
         public void bind(ListImage image) {
             Glide.with(itemView)
-                    .load(image.getPhotoInfo().getUrl())
+                    .load(image.getPhotoInfo().getThumbnail())
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade())
                     .error(R.drawable.ic_error)
@@ -70,8 +75,7 @@ public class ImagesListAdapter extends PagingDataAdapter<ListImage, ImagesListAd
 
         @Override
         public void onClick(View view) {
-
-            //mListener.onSelect(mantenList.get(getAdapterPosition()));
+            mListener.showDetail(getItem(getAbsoluteAdapterPosition()));
         }
     }
 
@@ -86,6 +90,10 @@ public class ImagesListAdapter extends PagingDataAdapter<ListImage, ImagesListAd
             return oldItem.equals(newItem);
         }
     };
+
+    public interface OnImageSelected {
+        void showDetail(ListImage image);
+    }
 
 
 }
