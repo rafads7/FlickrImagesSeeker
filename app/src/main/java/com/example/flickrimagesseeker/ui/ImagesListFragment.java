@@ -15,7 +15,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.paging.CombinedLoadStates;
 import androidx.paging.LoadState;
+import androidx.recyclerview.widget.ConcatAdapter;
 
 import com.example.flickrimagesseeker.R;
 import com.example.flickrimagesseeker.databinding.FragmentImagesListBinding;
@@ -28,6 +30,7 @@ import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -62,27 +65,11 @@ public class ImagesListFragment extends Fragment {
         mNavController = NavHostFragment.findNavController(this);
 
         mAdapter.setListener(image -> mNavController.navigate(ImagesListFragmentDirections.showImageDetail(image)));
-        mAdapter.addLoadStateListener(cls -> {
-            LoadState ls = cls.getSource().getRefresh();
-            mDataBinding.progressLayout.progress.setVisibility(ls instanceof LoadState.Loading ? VISIBLE : GONE);
-            mDataBinding.itemList.setVisibility(ls instanceof LoadState.NotLoading ? VISIBLE : GONE);
-            mDataBinding.progressLayout.errorText.setVisibility(ls instanceof LoadState.Error ? VISIBLE : GONE);
-            mDataBinding.progressLayout.retry.setVisibility(ls instanceof LoadState.Error ? VISIBLE : GONE);
+        mAdapter.addLoadStateListener(loasStateListener);
 
-            if (ls instanceof LoadState.NotLoading && cls.getAppend().getEndOfPaginationReached() && mAdapter.getItemCount() < 1) {
-                mDataBinding.itemList.setVisibility(GONE);
-                mDataBinding.progressLayout.noData.setVisibility(VISIBLE);
-            } else
-                mDataBinding.progressLayout.noData.setVisibility(GONE);
-
-            return Unit.INSTANCE;
-        });
-
-        LoadStateAdapter loadStateAdapter = new LoadStateAdapter((v) -> mAdapter.retry());
-        mAdapter.withLoadStateFooter(loadStateAdapter);
-
-        mDataBinding.itemList.setAdapter(mAdapter);
-        mDataBinding.progressLayout.retry.setOnClickListener((v) -> mAdapter.retry());
+        ConcatAdapter concatAdapter = mAdapter.withLoadStateFooter(new LoadStateAdapter(retryListener));
+        mDataBinding.itemList.setAdapter(concatAdapter);
+        mDataBinding.progressLayout.retry.setOnClickListener(retryListener);
 
         mViewModel.getSearch().observe(getViewLifecycleOwner(), images -> mAdapter.submitData(getViewLifecycleOwner().getLifecycle(), images));
     }
@@ -129,6 +116,25 @@ public class ImagesListFragment extends Fragment {
             }
         };
     }
+
+    public View.OnClickListener retryListener = (v) -> mAdapter.retry();
+
+    private Function1<? super CombinedLoadStates, Unit> loasStateListener = cls -> {
+        LoadState ls = cls.getSource().getRefresh();
+        mDataBinding.progressLayout.progress.setVisibility(ls instanceof LoadState.Loading ? VISIBLE : GONE);
+        mDataBinding.itemList.setVisibility(ls instanceof LoadState.NotLoading ? VISIBLE : GONE);
+        mDataBinding.progressLayout.errorText.setVisibility(ls instanceof LoadState.Error ? VISIBLE : GONE);
+        mDataBinding.progressLayout.retry.setVisibility(ls instanceof LoadState.Error ? VISIBLE : GONE);
+
+        if (ls instanceof LoadState.NotLoading && cls.getAppend().getEndOfPaginationReached() && mAdapter.getItemCount() < 1) {
+            mDataBinding.itemList.setVisibility(GONE);
+            mDataBinding.progressLayout.noData.setVisibility(VISIBLE);
+        } else
+            mDataBinding.progressLayout.noData.setVisibility(GONE);
+
+        return Unit.INSTANCE;
+    };
+
 }
 
 /*
