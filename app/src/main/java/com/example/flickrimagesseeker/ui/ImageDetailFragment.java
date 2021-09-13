@@ -1,5 +1,6 @@
 package com.example.flickrimagesseeker.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,10 +25,11 @@ import org.jetbrains.annotations.NotNull;
 public class ImageDetailFragment extends Fragment {
 
     private FragmentImageDetailBinding mDataBinding;
+    private ListImage mImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        setHasOptionsMenu(true);
         mDataBinding = FragmentImageDetailBinding.inflate(inflater, container, false);
         return mDataBinding.getRoot();
     }
@@ -32,15 +37,34 @@ public class ImageDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ListImage image = ImageDetailFragmentArgs.fromBundle(getArguments()).getImage();
-        mDataBinding.setImage(image);
+        mImage = ImageDetailFragmentArgs.fromBundle(getArguments()).getImage();
+        mDataBinding.setImage(mImage);
 
         Glide.with(this)
-                .load(image.getPhotoInfo().getUrl())
+                .load(mImage.getPhotoInfo().getUrl())
                 .centerCrop()
                 .transition(DrawableTransitionOptions.withCrossFade())
                 .error(R.drawable.ic_error)
                 .into(mDataBinding.image);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.share_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.share) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, mImage.getPhotoInfo().getUrl());
+            sendIntent.setType("text/plain");
+
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

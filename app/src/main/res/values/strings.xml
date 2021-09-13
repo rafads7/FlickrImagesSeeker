@@ -17,4 +17,5 @@
     <string name="did_not_get_data">Data could not be downloaded.</string>
     <string name="no_result_to_show">No results to show for that search.</string>
     <string name="date">Date</string>
+    <string name="share">Share</string>
 </resources>

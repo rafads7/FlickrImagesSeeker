@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-anydpi/ic_search.xml" value="0.22083333333333333" />
+        <entry key="app/src/main/res/drawable-anydpi/ic_share.xml" value="0.22083333333333333" />
         <entry key="app/src/main/res/layout/fragment_image_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_header_footer_load_state.xml" value="0.13020833333333334" />
+        <entry key="app/src/main/res/menu/search_menu.xml" value="0.2046875" />
+        <entry key="app/src/main/res/menu/share_menu.xml" value="0.2046875" />
       </map>
     </option>
   </component>
