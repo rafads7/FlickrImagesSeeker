@@ -117,7 +117,7 @@ public class ImagesListFragment extends Fragment {
         };
     }
 
-    public View.OnClickListener retryListener = (v) -> mAdapter.retry();
+    public View.OnClickListener retryListener = v -> mAdapter.retry();
 
     private Function1<? super CombinedLoadStates, Unit> loasStateListener = cls -> {
         LoadState ls = cls.getSource().getRefresh();

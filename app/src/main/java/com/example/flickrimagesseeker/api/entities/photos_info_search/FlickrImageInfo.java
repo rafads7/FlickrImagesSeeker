@@ -14,6 +14,9 @@ public class FlickrImageInfo implements Parcelable {
     private FlickrImageOwner owner;
 
     @Expose
+    private FlickrImageDates dates;
+
+    @Expose
     private String id;
 
     @Expose
@@ -49,6 +52,14 @@ public class FlickrImageInfo implements Parcelable {
             return new FlickrImageInfo[size];
         }
     };
+
+    public FlickrImageDates getDates() {
+        return dates;
+    }
+
+    public void setDates(FlickrImageDates dates) {
+        this.dates = dates;
+    }
 
     public FlickrImageOwner getOwner() {
         return owner;
